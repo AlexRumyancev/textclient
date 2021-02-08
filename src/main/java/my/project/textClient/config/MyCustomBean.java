@@ -5,6 +5,8 @@ import my.project.textClient.menuitems.ListContacts;
 import my.project.textClient.menuitems.ListMessagesByUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -31,8 +33,15 @@ public class MyCustomBean {
         hlp.put("listMessages".toLowerCase(), "список всех сообщений, полученных от сервера");
         mnu.put("listContacts".toLowerCase(), lContacts);
         hlp.put("listContacts".toLowerCase(), "получить текущий список всех пользователей");
-        mnu.put("recieveMessages".toLowerCase(), lContacts);
+        mnu.put("recieveMessages".toLowerCase(), lmu);
         hlp.put("recieveMessages".toLowerCase(), "получить все сообщения для пользователя которые лежат на сервере");
         return new Menu(mnu, hlp);
+    }
+
+    @Bean
+    public HttpEntity getAuthHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth("c43df729-eea7-41d8-a7ae-3191383a91e6");
+        return new HttpEntity(headers);
     }
 }

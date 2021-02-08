@@ -21,14 +21,14 @@ public class ListContacts implements Function<List, List> {
     @Autowired
     private RestTemplate rt;
 
+    @Autowired
+    private HttpEntity httpe;
+
     @Override
     public List apply(List args) {
         List result = new ArrayList();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth("4696d432-c5f5-4c71-937c-4a5af60f4257");
-        HttpEntity entity = new HttpEntity(headers);
         try {
-            result = rt.exchange("http://localhost:8080/tm/contacts", HttpMethod.GET, entity, List.class).getBody();
+            result = rt.exchange("http://localhost:8080/tm/contacts", HttpMethod.GET, httpe, List.class).getBody();
         } catch(Exception e) {
             LOG.info("Проблема со связью с сервером");
         }

@@ -39,25 +39,26 @@ public class TClient {
     @Autowired
     private ListMessagesByUser lmu;
 
+    @Autowired
+    private HttpEntity httpe;
+
     @PostConstruct
     public void initSheduler() {
         taskScheduler.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                HttpHeaders headers = new HttpHeaders();
-                headers.setBearerAuth("4696d432-c5f5-4c71-937c-4a5af60f4257");
-                HttpEntity entity = new HttpEntity(headers);
-                LOG.info("Обновляем онлайн статус клиента");
+              LOG.info("Обновляем онлайн статус клиента");
                 try {
-                    ResponseEntity result = rt.exchange("http://localhost:8080/tm/login", HttpMethod.GET, entity, String.class);
+                    ResponseEntity result = rt.exchange("http://localhost:8080/tm/login", HttpMethod.GET, httpe, String.class);
                 } catch(Exception e) {
                     LOG.info("Проблема со связью с сервером");
+//                    throw new Exception();
                 }
             }
         }, new Date(), Constants.ONLINE_REFRESH);
 
-
         this.run();
+
     }
 
     private void run() {
